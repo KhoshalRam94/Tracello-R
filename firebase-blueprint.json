@@ -1,0 +1,120 @@
+{
+  "entities": {
+    "Product": {
+      "title": "Product",
+      "description": "Defines a product and its specific fields for inspection.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "customFields": {
+          "type": "array",
+          "items": { "type": "string" }
+        }
+      },
+      "required": ["id", "name", "customFields"]
+    },
+    "PrintRecord": {
+      "title": "Print Record",
+      "description": "A record of a generated serial number and print label.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "category": { "type": "string", "enum": ["Child Part / Raw Material", "Finished Good", "Container"] },
+        "productName": { "type": "string" },
+        "serialNumber": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "category", "productName", "serialNumber", "timestamp"]
+    },
+    "InspectionRecord": {
+      "title": "Inspection Record",
+      "description": "Log of a single product inspection entry.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "productName": { "type": "string" },
+        "orderNo": { "type": "string" },
+        "frameNo": { "type": "string" },
+        "dynamicFields": { "type": "object" },
+        "inspector": { "type": "string" },
+        "authEmail": { "type": "string" },
+        "timestamp": { "type": "number" },
+        "qcStatus": { "type": "string" },
+        "shift": { "type": "string", "enum": ["A", "B", "C"] }
+      },
+      "required": ["id", "productName", "orderNo", "frameNo", "dynamicFields", "inspector", "timestamp"]
+    },
+    "QCReport": {
+      "title": "QC Report",
+      "description": "A detailed Quality Control check report.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "template": { "type": "string" },
+        "docId": { "type": "string" },
+        "orderNo": { "type": "string" },
+        "customerName": { "type": "string" },
+        "frameNo": { "type": "string" },
+        "inspector": { "type": "string" },
+        "date": { "type": "string" },
+        "sections": { "type": "array" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "template", "docId", "orderNo", "frameNo", "inspector", "date", "sections", "timestamp"]
+    },
+    "QCTemplate": {
+      "title": "QC Template",
+      "description": "Master list of criteria for a specific QC protocol.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "name": { "type": "string" },
+        "sections": { "type": "array" }
+      },
+      "required": ["id", "name", "sections"]
+    },
+    "DowntimeRecord": {
+      "title": "Downtime Record",
+      "description": "A record of production downtime including interval and reason.",
+      "type": "object",
+      "properties": {
+        "id": { "type": "string" },
+        "hourInterval": { "type": "string" },
+        "duration": { "type": "number" },
+        "category": { "type": "string", "enum": ["Mechanical", "Electrical", "Tooling", "Material", "Utility", "Other"] },
+        "reason": { "type": "string" },
+        "maintenancePersonnel": { "type": "string" },
+        "operator": { "type": "string" },
+        "timestamp": { "type": "number" }
+      },
+      "required": ["id", "hourInterval", "duration", "category", "reason", "operator", "timestamp"]
+    }
+  },
+  "firestore": {
+    "/products/{productId}": {
+      "schema": "Product",
+      "description": "Available products for inspection."
+    },
+    "/prints/{printId}": {
+      "schema": "PrintRecord",
+      "description": "Generated print labels."
+    },
+    "/inspections/{inspectionId}": {
+      "schema": "InspectionRecord",
+      "description": "Vehicle inspection records."
+    },
+    "/qc_reports/{reportId}": {
+      "schema": "QCReport",
+      "description": "Quality control reports."
+    },
+    "/qc_templates/{templateId}": {
+      "schema": "QCTemplate",
+      "description": "Master criteria for QC protocols."
+    },
+    "/downtime/{downtimeId}": {
+      "schema": "DowntimeRecord",
+      "description": "Hourly downtime tracking logs."
+    }
+  }
+}

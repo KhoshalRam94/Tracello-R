@@ -1,0 +1,7 @@
+{
+  "name": "Tracello-R",
+  "description": "Professional unit traceability and quality control system with real-time dashboard analytics, QR tracking, and AI-powered stats bot.",
+  "requestFramePermissions": [
+    "camera"
+  ]
+}
